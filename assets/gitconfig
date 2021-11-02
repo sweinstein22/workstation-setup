@@ -1,0 +1,33 @@
+[alias]
+  br = branch
+  ci = commit --verbose
+  co = checkout
+  cp = cherry-pick
+  duet = author
+  fixup = "commit --fixup"
+  lol = "log --graph --decorate --oneline"
+  lola = "log --graph --decorate --oneline --all"
+  s = status --short --branch
+  solo = author
+  pair = author
+  squash = "commit --squash"
+  st = status
+  sta = stash
+  unstage = "reset HEAD"
+
+[git-together]
+  aliases = ci
+
+[commit]
+  template = ~/.git-author-template
+
+[merge]
+  # Display common-ancestor blocks in conflict hunks
+  conflictStyle = diff3
+[url "git@github.com:"]
+  pushInsteadOf = https://github.com/
+  pushInsteadOf = git://github.com/
+[interactive]
+  diffFilter = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight
+[pull]
+  rebase = true
