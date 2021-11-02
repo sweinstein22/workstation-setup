@@ -7,7 +7,7 @@ brew 'direnv'
 # Language support
 brew 'go'
 brew 'node'
-brew 'python', link: true, overwrite: true
+brew 'python@3.8', link: true, overwrite: true
 brew 'shellcheck'
 brew 'yarn'
 brew 'nginx'

@@ -7,7 +7,6 @@ fi
 brew tap cloudfoundry/tap
 brew install bosh-cli
 brew install bbl
-brew install chruby
 
 if ! cat ~/.bashrc | grep 'alias capi-ws-1' > /dev/null; then
   echo "
@@ -23,3 +22,4 @@ chmod -R a+x ~/workspace/capi-workspace/install-scripts
 echo 'Running scripts from capi-workspace'
 ~/workspace/capi-workspace/install-scripts/bundler.sh
 ~/workspace/capi-workspace/install-scripts/clone-repos.sh
+./ccng.sh
