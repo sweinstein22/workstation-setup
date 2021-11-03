@@ -17,6 +17,9 @@ function nvim {
   grep -q "github.com/luan/nvim" ~/.config/nvim/.git/config ||
     ((chmod -f -R +w $HOME/.vim/gopath/pkg/mod/golang.org/x || true) ; rm -rf ${HOME}/.config/nvim ${HOME}/.vim* ${HOME}/.local/share/nvim &&
     git clone https://github.com/luan/nvim ~/.config/nvim)
+  pushd ~/.config/nvim
+    git co ed4220a3942420b29a734ac52119e10d56a4fd36
+  popd
   echo "Install python-client for neovim..."
   python3 -m pip install --user --upgrade pynvim
   echo "Add yamllint for neomake..."
