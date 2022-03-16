@@ -2,6 +2,13 @@
 
 set -e
 
+if [ ! -e /opt/homebrew ] ; then
+  echo "Adding homebrew executables"
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.bash_profile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+
 brewfile="${PWD}/Brewfile"
 
 echo "Installing from the Brewfile..."
