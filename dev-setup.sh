@@ -52,6 +52,8 @@ function inputrc {
   fi
 }
 
+iterm
+
 nvim
 nvim +UpdateRemotePlugins +qall
 nvim +GoInstallBinaries +qall

@@ -1,7 +1,7 @@
 #!/bin/bash
 
+./zsh.sh
 ./install-core.sh
-./bash-it.sh
 
 ./aliases.sh
 ./brew.sh
