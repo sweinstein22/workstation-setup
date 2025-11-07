@@ -22,6 +22,7 @@ brew 'neovim'
 brew 'tmux'
 brew 'universal-ctags/universal-ctags/universal-ctags', args: ['HEAD']
 brew 'z'
+brew 'git-spice'
 cask 'flycut'
 cask 'google-cloud-sdk'
 cask 'iterm2'
