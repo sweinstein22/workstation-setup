@@ -1,0 +1,33 @@
+[alias]
+  br = branch
+  ci = commit --verbose
+  co = checkout
+  cp = cherry-pick
+  fixup = "commit --fixup"
+  lol = "log --graph --decorate --oneline"
+  lola = "log --graph --decorate --oneline --all"
+  s = status --short --branch
+  squash = "commit --squash"
+  st = status
+  sta = stash
+  unstage = "reset HEAD"
+
+[pull]
+  rebase = true
+[credential "https://github.com"]
+    helper =
+    helper = !/usr/bin/gh auth git-credential
+[init]
+    defaultBranch = main
+[user]
+    email = sarah.weinstein@chronosphere.io
+    name = Sarah Weinstein
+[url "git@github.com:"]
+	insteadOf = https://github.com
+[core]
+	hooksPath = /Users/sarahweinstein/.config/git/hooks
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
