@@ -1,9 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-./zsh.sh
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
 ./install-core.sh
+# oh-my-zsh lays down a fresh ~/.zshrc, so it has to run before anything appends to it.
+./zsh.sh
 
-./aliases.sh
 ./brew.sh
-./dev-setup.sh
+./aliases.sh
 ./git-config.sh
+./dev-setup.sh

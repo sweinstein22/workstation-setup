@@ -1,22 +1,35 @@
 #!/usr/bin/env bash
 
-set +e
+set -euo pipefail
+
+# Apple Silicon puts Homebrew under /opt/homebrew, Intel under /usr/local.
+if [ "$(uname -m)" = "arm64" ]; then
+  BREW_PREFIX="/opt/homebrew"
+else
+  BREW_PREFIX="/usr/local"
+fi
 
 function install-basics {
-  xcode-select --install
-
-  if ! which brew > /dev/null ; then
-    echo "Installing Homebrew"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
-    </dev/null
+  if ! xcode-select -p > /dev/null 2>&1; then
+    echo "Installing the Xcode command line tools"
+    xcode-select --install
+    # xcode-select returns as soon as it has launched the GUI installer, so wait
+    # for the tools to actually land before Homebrew tries to use them.
+    until xcode-select -p > /dev/null 2>&1; do
+      sleep 10
+    done
   fi
-  # to avoid ttyless complaints on brew update
-  sudo mkdir -p /usr/local/sbin
-  sudo chown -R $(whoami) /usr/local/sbin
 
-  # use homebrew-provided, updated bash
-  echo /usr/local/bin/bash | sudo tee -a /etc/shells
-  sudo chsh -s /usr/local/bin/bash
+  if ! command -v brew > /dev/null; then
+    echo "Installing Homebrew"
+    NONINTERACTIVE=1 /bin/bash -c \
+      "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+      < /dev/null
+  fi
+
+  # to avoid ttyless complaints on brew update
+  sudo mkdir -p "${BREW_PREFIX}/sbin"
+  sudo chown -R "$(whoami)" "${BREW_PREFIX}/sbin"
 }
 
 install-basics

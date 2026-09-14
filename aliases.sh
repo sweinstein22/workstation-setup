@@ -1,7 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-if ! cat ~/.bashrc | grep 'alias gst' > /dev/null; then
-  echo 'alias gst="git status"' >> ~/.bashrc
-  echo 'alias vim="nvim"' >> ~/.bashrc
-  echo 'source "$HOME"/.bashrc' >> ~/.bash_profile
+set -euo pipefail
+
+ZSHRC="${HOME}/.zshrc"
+touch "${ZSHRC}"
+
+if ! grep -qs 'alias gst' "${ZSHRC}"; then
+  cat >> "${ZSHRC}" << 'EOF'
+
+alias gst="git status"
+alias vim="nvim"
+
+# Alt-Left / Alt-Right move by word.
+bindkey '^[[1;3C' forward-word
+bindkey '^[[1;3D' backward-word
+EOF
 fi
