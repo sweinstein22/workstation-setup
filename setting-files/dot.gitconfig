@@ -16,7 +16,8 @@
   rebase = true
 [credential "https://github.com"]
     helper =
-    helper = !/usr/bin/gh auth git-credential
+    # Resolved from PATH: Homebrew installs gh outside /usr/bin.
+    helper = !gh auth git-credential
 [init]
     defaultBranch = main
 [user]
@@ -25,7 +26,7 @@
 [url "git@github.com:"]
 	insteadOf = https://github.com
 [core]
-	hooksPath = /Users/sarahweinstein/.config/git/hooks
+	hooksPath = ~/.config/git/hooks
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f

@@ -1,28 +1,32 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
-if [ ! -e /opt/homebrew ] ; then
-  echo "Adding homebrew executables"
-  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.bash_profile
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+# Apple Silicon puts Homebrew under /opt/homebrew, Intel under /usr/local.
+if [ -x /opt/homebrew/bin/brew ]; then
+  BREW="/opt/homebrew/bin/brew"
+else
+  BREW="/usr/local/bin/brew"
 fi
 
+# zsh reads ~/.zprofile for login shells, which is where PATH belongs.
+if ! grep -qs 'brew shellenv' "${HOME}/.zprofile"; then
+  echo "Adding homebrew executables"
+  echo "eval \"\$(${BREW} shellenv)\"" >> "${HOME}/.zprofile"
+fi
+eval "$(${BREW} shellenv)"
 
 brewfile="${PWD}/Brewfile"
 
 echo "Installing from the Brewfile..."
 brew update || echo "brew update failed, but continuing"
-brew tap Homebrew/bundle
-brew bundle install
 
 if ! brew bundle check --file "$brewfile"; then
-    brew bundle --file "$brewfile"
+  brew bundle install --file "$brewfile"
 fi
 
-if ! cat ~/.bashrc | grep 'etc/profile.d/z.sh' > /dev/null; then
-  echo 'source "$(brew --prefix)/etc/profile.d/z.sh"' >> ~/.bashrc
-fi
-if ! cat ~/.bash_profile | grep 'source ~/.bashrc' > /dev/null; then
-  echo 'source ~/.bashrc' >> ~/.bash_profile
+if ! grep -qs 'etc/profile.d/z.sh' "${HOME}/.zshrc"; then
+  echo 'source "$(brew --prefix)/etc/profile.d/z.sh"' >> "${HOME}/.zshrc"
 fi
