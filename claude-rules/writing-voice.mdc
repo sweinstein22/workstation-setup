@@ -1,77 +1,106 @@
 ---
-description: How text written as me should sound -- PR descriptions, review comments, commit messages
+description: How text written as me should sound -- PR descriptions, review comments, code comments, commit messages
 alwaysApply: true
 ---
 # Writing Voice
 
-**Scope: artifacts written as me** -- PR titles and descriptions, PR review and
-issue comments, Shortcut comments, commit messages. *Not* replies to me in chat.
-There, stay in your own voice, so the seam between my intent and your inference
-stays visible (see `agent-self-identification`).
+**Scope: artifacts written as me** -- PR titles and descriptions, PR review and issue comments,
+Shortcut comments, commit messages, and code comments. *Not* replies to me in chat. There, stay in
+your own voice, so the seam between my intent and your inference stays visible (see
+`agent-self-identification`).
 
-**Precedence: this file wins** over a skill's or a project's house style for
-those artifacts. Where it is silent, they govern. `pr-conventions` owns the
-structural rules -- title format, where the Shortcut link goes, draft state --
-and this file owns everything below that line.
+**Precedence: this file wins** over a skill's or a project's house style for those artifacts. Where
+it is silent, they govern. `pr-conventions` owns the structural rules -- title format, where the
+Shortcut link goes, draft state -- and this file owns everything below that line.
 
 ## The measurement
 
-Across 46 PRs I wrote myself, the median description is **29 words**, and not
-one contains a markdown heading, bold text, or an em dash. Agent-written PRs on
-the same account run a median of **350 words**, with headings and bold
-throughout. If you are unsure, you are writing too much, not too little.
+Across 46 PRs I wrote myself, the median description is **29 words**, and not one contains a
+markdown heading, bold text, or an em dash. Agent-written PRs on the same account run a median of
+**350 words**, with headings and bold throughout. If you are unsure, you are writing too much, not
+too little.
 
-## Exemplars
+## Rules that hold everywhere
 
-Match these. Real and unedited.
-
-> [sc-188262](https://app.shortcut.com/chronosphere/story/188262/...)
->
-> We previously didn't use theme-aware icons for timeline events. updating that
-> logic so that the event icons are dark, rather than white, in dark mode
->
-> `<img ...>` `<img ...>`
-
-> [sc-183106](https://app.shortcut.com/chronosphere/story/183106/...)
->
-> Adding more info so we can see whether folks are using the new date time
-> syntax and presets
-
-> [sc-190508](https://app.shortcut.com/chronosphere/story/190508/...)
->
-> Unless on smaller screen (vertically) - then we use body2
->
-> `<img ...>`
-
-## The shape
-
-- Shortcut link, blank line, one or two sentences.
-- Open with the change itself, usually as a participle: "Adding...",
-  "Updating...", "Also gating...". Never "This PR...".
-- The reason rides in a subordinate clause -- "so we can see whether folks are
-  using the new syntax" -- rather than getting its own paragraph.
-- `we` for the team and the product. Contractions throughout.
-- A plain hyphen where a dash is wanted (`- then we use body2`), never an em
+- **No terminal period** on a code comment, or on a paragraph in a PR description or review comment.
+  Multi-sentence prose still punctuates internally; it just does not close.
+- **`I` for my own decisions and intentions, `we`/`our` for the codebase and the team.** "I'm going
+  to revisit this in another pass" and "our previous assumption that relative ranges were always
+  trailing durations" are the same sentence. Do not flatten both into `we`.
+- **A plain hyphen where a dash is wanted** (`another pass - this bug is making me...`), never an em
   dash.
-- Casual register is correct. A small aside ("hoping this helps!") is in voice.
-  Do not polish it into corporate prose, and do not fix my typos when quoting
-  me.
+- Contractions throughout. Casual register is correct, and it gets more casual, not less, in a
+  comment addressed to a person.
+- Do not fix my typos or capitalization when quoting me.
 
-## Length
+## PR descriptions
 
-One or two sentences is the default, because most changes are small and the diff
-speaks for itself. Earn each paragraph past that. A non-obvious root cause is
-worth a short one; an inventory of what changed is not, because the diff already
-lists it.
+Shortcut link, blank line, one or two sentences. Real and unedited:
+
+> We previously didn't use theme-aware icons for timeline events. updating that logic so that the
+> event icons are dark, rather than white, in dark mode
+
+> Adding more info so we can see whether folks are using the new date time syntax and presets
+
+> Unless on smaller screen (vertically) - then we use body2
+
+- Open with the change itself, usually as a participle: "Adding...", "Updating...", "Also
+  gating...". Never "This PR...".
+- The reason rides in a subordinate clause -- "so we can see whether folks are using the new syntax"
+  -- rather than getting its own paragraph.
+- One or two sentences is the default, because most changes are small and the diff speaks for
+  itself. Earn each paragraph past that. A non-obvious root cause is worth a short one; an inventory
+  of what changed is not, because the diff already lists it.
+- A second paragraph starting lowercase is a continuation, not a mistake.
+
+## Review comments on my own PR
+
+Two paragraphs: the substance, then a disposition or an invitation. Real and unedited:
+
+> This looks like a lot of changes, but rather than just adding to the file I figure it's better to
+> fix up the test setup to be more consolidated instead of just adding for the one area I'm fixing up
+>
+> lmk if y'all feel differently or if there's historical context I'm missing!
+
+> I'm actually going to revisit this in another pass - this bug is making me investigate our usage of
+> `getDurationFromTimeRangeStart` because it's indicative of our previous assumption that relative
+> ranges were always trailing durations
+>
+> making that a separate PR so this one doesn't balloon too badly
+
+- **Name the reaction before the reviewer has it.** "This looks like a lot of changes, but..."
+- **Hedge a judgment call rather than asserting it.** "I figure it's better to..." -- not "the right
+  approach is".
+- The closing paragraph does social work: it invites disagreement (`lmk if y'all feel differently or
+  if there's historical context I'm missing!`) or states where the deferred work is going (`making
+  that a separate PR so this one doesn't balloon too badly`).
+- `lmk`, `y'all`, and an exclamation mark are all in voice here. Do not formalize them.
+
+## Code comments
+
+One sentence, and it earns its place only by saying something the code and the surrounding names do
+not already say.
+
+- **Cut the sentence that restates intent, keep the one carrying the non-obvious mechanic.** Not
+  "keep the first sentence" -- pick by which one a reader could not have worked out:
+
+  > ~~Disabled cases should not be burning an interval in the background.~~ Auto-refresh runs an
+  > interval of its own, so match the hook's interval rather than counting every call
+
+- **Delete the whole comment when a name already makes the point.** A comment justifying why a test
+  exists, above a test whose name states the behaviour, is noise.
+- **Drop qualifying parentheticals.** "The range the provider holds, when it can't be the one under
+  test" became "The range the provider holds".
+- **Wrap at the file's configured width, not tighter.** Biome is at 120 in this monorepo's `ui/`; a
+  comment wrapped at 80 or 100 reads as two thoughts when it is one.
 
 ## What earns its place
 
-**Screenshots and video for anything visual.** A third of my PRs lead with an
-image instead of an explanation, which is the right trade -- take it whenever
-the change is something you can see.
+**Screenshots and video for anything visual.** A third of my PRs lead with an image instead of an
+explanation, which is the right trade -- take it whenever the change is something you can see.
 
-**A before/after table**, when a change alters behaviour across several cases.
-It earns its place by comparing, not by decorating:
+**A before/after table**, when a change alters behaviour across several cases. It earns its place by
+comparing, not by decorating:
 
 | Range | Before | After |
 | --- | --- | --- |
@@ -80,5 +109,5 @@ It earns its place by comparing, not by decorating:
 
 ## What to leave out
 
-Headings, bold, bulleted restatements of the diff, and any sentence describing
-what kind of document this is.
+Headings, bold, bulleted restatements of the diff, and any sentence describing what kind of document
+this is.
