@@ -1,0 +1,53 @@
+---
+description: How much test coverage a change carries, and how much room it is allowed to take
+alwaysApply: true
+---
+# Test Coverage
+
+Thorough, and concise. The two only pull against each other when tests are
+written by enumeration -- a case per input rather than a case per way the code
+can be wrong. Cover every way it can be wrong, once each.
+
+## Thorough is about failure modes, not counts
+
+- **The behaviour the change is about gets a test that fails without the
+  change.** Write it first and watch it fail. A test that has never been red has
+  proven nothing, and the ones that matter most are the ones asserting a bug
+  stays fixed.
+- **Boundaries, not samples.** Empty, one, many. The first element and the last.
+  The value on each side of a threshold. Three inputs from the middle of the
+  same range are one test wearing three hats.
+- **The error path.** What happens when the call fails, the field is absent, the
+  list is empty, the flag is off, the response arrives out of order.
+- **The interaction the reader would otherwise take on faith** -- two features
+  that have to compose, a rule that has to win over another rule.
+
+Coverage percentage is not the target. A changed line that no test would notice
+going wrong is the gap worth closing; a changed line whose only plausible bug is
+a typo the compiler catches is not.
+
+## Concise is about lines, not cases
+
+- **One behaviour per test, and a name that states the behaviour** rather than
+  the method under test. The name is what a future reader sees in a failure
+  report, so it should say what broke.
+- **Table-drive the repetition.** When cases differ only in inputs and expected
+  output, that is a table, not a screenful of near-identical bodies.
+- **Share setup through a helper or a factory with defaults**, and have each
+  case override only the field it is about. What a test does not mention should
+  be what does not matter to it.
+- **Assert the thing, not everything around it.** A whole-object comparison for
+  a change to one field buries the subject and breaks on every unrelated edit;
+  a snapshot of an entire render asserts nothing anyone can read.
+- **Do not test the framework, the language, or a mock you just configured.**
+- **Delete rather than accumulate.** A case already covered by a neighbour is
+  maintenance with no signal. When a test needs a paragraph of comment to
+  explain what it proves, the test is usually the wrong shape.
+
+## Where a test goes
+
+Use the layer the repo already uses for that kind of code -- a pure function
+belongs in the unit suite, a component in whatever the project drives real
+browsers with. Adding a slow end-to-end case for something a fast one would
+have caught is the expensive way to be thorough, and the one that gets the suite
+ignored.

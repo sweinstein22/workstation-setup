@@ -11,3 +11,5 @@
 ## Pull Requests
 
 - Always open PRs in draft mode: pass `--draft` to every `gh pr create` invocation (including stacked PRs), unless I explicitly say to open it ready-for-review.
+
+This rule only reaches an agent working inside *this* repo, which is almost never where the PR is. The version that actually loads everywhere is `claude-rules/pr-conventions.mdc`, published from spacejunk -- see `claude-rules/README.md`.

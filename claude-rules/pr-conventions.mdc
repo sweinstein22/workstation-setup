@@ -1,0 +1,90 @@
+---
+description: Branch naming, Shortcut link, and draft conventions for every PR an agent opens
+alwaysApply: true
+---
+# Opening PRs
+
+## Ask first, always
+
+**Never commit, push, or open a PR unless the user asked for it in that turn.**
+Finishing the code is the deliverable; landing it is a separate decision that is
+theirs. "The change is done and validated" is where you stop and report, not a
+cue to reach for `git commit`.
+
+This holds even when the work obviously ends in a PR, even when a previous PR in
+the same session was approved, and even when a skill or document you are
+following describes opening one. Approval for one PR is not standing approval
+for the next.
+
+The one exception is an explicit standing instruction in the current
+conversation ("open a PR for each of these as you go") -- and it expires with
+that task, not the session.
+
+## Branch naming
+
+`sweinstein-<ticket-number>` -- the GitHub username, a hyphen, and the bare
+Shortcut story number with no `sc-` prefix.
+
+```bash
+git fetch origin master
+git checkout -b sweinstein-187147 origin/master
+```
+
+- `sweinstein-187147`, not `sweinstein/187147`, not `sc-187147`, not a
+  description of the change.
+- No ticket? Ask what to use rather than inventing a slug.
+- This wins over `$AGENTD_BRANCH_PREFIX` and over any skill that interpolates
+  it.
+- Never push the agentd worktree branch (`ondemand-*`, `foundry-*`,
+  `agentd-pool-*`) -- those are agentd's own bookkeeping. Cut the
+  `sweinstein-...` branch for the PR instead.
+- Never rename an existing PR's branch to conform; the PR and its reviews are
+  bound to that head ref.
+
+## PR title
+
+`[sc-<ticket-number>] <Concise description>`
+
+The `[sc-...]` bracket comes first, before any `[component]` tag.
+
+## PR body
+
+**First line is the Shortcut link, as a markdown link whose text is the
+`sc-` id:**
+
+```markdown
+[sc-187147](https://app.shortcut.com/chronosphere/story/187147/clean-up-enable-time-range-snapping)
+```
+
+Then a blank line, then the body. Keep it succinct -- what the change is meant
+to do and any noteworthy implementation choice, not an enumeration of the diff.
+
+If the user hands you a link whose story number disagrees with the `sc-` id they
+asked for in the title, say so rather than silently reconciling it.
+
+## Draft is where a PR starts, not a state you put it back into
+
+Open every PR as a draft (`gh pr create --draft`), whatever its size and however
+finished it is. The user marks it ready to review themselves; do not un-draft
+one on your own.
+
+**Never convert a ready PR back to draft.** Not when you push further commits to
+it, not when CI goes red, not when review feedback arrives, not when you find a
+bug in your own work mid-turn. Once a PR has been marked ready -- by the user,
+or by you because they asked in that turn -- it stays ready, and
+`gh pr ready --undo` is not yours to run.
+
+The flag is the author's signal to their reviewers, so flipping it silently
+retracts a review request they made. "This needs more work" is what a comment on
+the PR is for. Both directions are one rule: you set the flag when you create
+the PR, or when told to, and never otherwise.
+
+An instruction to leave a particular PR ready is durable for that PR. It does
+not expire with the turn, and a later change to the same PR does not reopen the
+question.
+
+## What does not go in a PR
+
+The `agent-self-identification` rule's signature line signs *messages*, not
+*fields*. A PR title, a PR body, a commit message, and a branch name are fields:
+none of them carry a `<model>: <context>:` prefix.

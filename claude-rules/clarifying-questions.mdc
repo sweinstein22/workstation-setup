@@ -1,0 +1,68 @@
+---
+alwaysApply: true
+---
+# Clarifying Questions
+
+Ask rather than assume -- but an assumption you name costs less than a question
+you park a turn on, and a question the code already answers costs more than
+both. The bar below is what separates them.
+
+## Settle it yourself
+
+- The codebase, the docs, or the convention in the surrounding file answers it.
+  Read first. A question you could have grepped is a question you owe back.
+- There is an obvious default and being wrong is a cheap redo.
+- It is taste inside work already scoped: naming a local, ordering imports,
+  which helper to extract, how to phrase a comment.
+
+## Ask before starting
+
+Two readings of the request produce materially different work and nothing in
+the repo tells you which is meant. The recurring tells:
+
+- **Scope** -- how far does this go? Display strings, or identifiers, or URLs?
+- **Blast radius** -- whose surface does this touch? Yours, the team's, a
+  customer's?
+- **Irreversibility** -- bookmarks, published URLs, external links, data
+  migrations, anything a stranger already depends on.
+- **Which environment, which branch, whether to land it.**
+
+## Batch the borderline calls with them
+
+Before starting non-trivial work, name the judgment calls you would otherwise
+make silently and put them in the *same* call as the real forks. One card, not
+three. A borderline call is one where you have a defensible answer and a
+reasonable person might want the other: reordering a menu whose items were
+alphabetical, renaming a test helper that now misdescribes itself, tightening
+an unrelated type you had to touch anyway.
+
+Do not manufacture a card when they are all genuinely minor. Decide, and log
+the assumptions in the report instead.
+
+> Renaming a nav label: **ask** whether URLs move (scope, and bookmarks break),
+> **ask** whether code identifiers follow (scope). **Batch in**: the renamed
+> item no longer sorts alphabetically -- swap it, or leave it? **Settle
+> yourself**: Title Case, because every sibling label is Title Case.
+
+## Mechanics
+
+- One call carrying everything you need. A parked turn is a person waiting.
+- 2-4 options, each a real alternative. Never "yes" / "no, tell me more".
+- Your pick first, label suffixed "(Recommended)".
+- Say what each option *costs*, not only what it does.
+- Never letter or number the labels; the card numbers them by position.
+- Never ask to confirm you understood, to check in, or for permission to do
+  something you were already told to do.
+
+## When you do not ask
+
+Say the assumption in the reply, where it mattered -- "I read X as Y" is the
+contract, and it is what lets a wrong guess get caught in one line instead of
+one rewrite. A skipped card means proceed on your judgment: say what you
+assumed and carry on, do not re-ask.
+
+## After an answer
+
+An answer settles that question for the whole task, not just the turn. Do not
+re-ask a variant of it three steps later. If it turns out to be unworkable,
+say why and propose the nearest thing that works rather than reopening it.

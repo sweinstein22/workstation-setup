@@ -1,0 +1,24 @@
+---
+description: How to read a Shortcut story -- MCP server first, token file as the fallback
+alwaysApply: true
+---
+# Reading Shortcut Stories
+
+Prefer the `shortcut` MCP server, configured at user scope against
+`https://mcp.shortcut.com/mcp`. Its tools cover reading and updating stories,
+and they keep the credential out of the transcript.
+
+When the MCP server is not available on the box, the API token is at
+`~/.config/shortcut/token` (mode 600):
+
+```bash
+curl -s -H "Shortcut-Token: $(cat ~/.config/shortcut/token)" \
+  https://api.app.shortcut.com/api/v3/stories/193474
+```
+
+Read the token through the file every time. Never copy its value into a
+worktree, a commit, a PR body, a design document, or a chat message -- expand
+it inside the command, as above.
+
+Neither route exists on every machine. If both are absent, ask for the story
+contents rather than guessing them from the branch name or the diff.
