@@ -45,7 +45,17 @@ git checkout -b sweinstein-187147 origin/master
 
 `[sc-<ticket-number>] <Concise description>`
 
-The `[sc-...]` bracket comes first, before any `[component]` tag.
+**No `[component]` tag when there is a ticket.** The `sc-` id is the only
+bracket, and the description says which area the change is in far better than a
+tag does. Do not add one because the repo's other PR titles carry one, and do
+not add one to an existing title that lacks it.
+
+`[component] <Concise description>` is the shape for the rare PR with no
+Shortcut ticket -- a one-off chore, a revert, a tooling fix. There the tag is
+doing the work the `sc-` id would have done, so it stays.
+
+This governs the PR title only. Commit messages keep whatever shape the repo's
+own conventions ask for.
 
 ## PR body
 
